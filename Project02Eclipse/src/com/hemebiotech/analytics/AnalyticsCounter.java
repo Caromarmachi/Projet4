@@ -19,7 +19,7 @@ public class AnalyticsCounter {
 			if (line.equals("headache")) {
 				headacheCount++;
 			}
-			else if (line.equals("rush")) {
+			else if (line.equals("rash")) {
 				rashCount++;
 			}
 			else if (line.contains("pupils")) {
@@ -31,9 +31,10 @@ public class AnalyticsCounter {
 		
 		// next generate output
 		FileWriter writer = new FileWriter ("D:/result.out");
+		writer.write("dialated pupils: " + pupilCount + "\n");
 		writer.write("headache: " + headacheCount + "\n");
 		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
+
 		writer.close();
 	}
 }
