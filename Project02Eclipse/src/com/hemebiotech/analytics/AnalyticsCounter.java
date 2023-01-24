@@ -3,7 +3,11 @@ package com.hemebiotech.analytics;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,14 +43,20 @@ public class AnalyticsCounter {
 		}
 		reader.close();
 		
+		//On tri les données
+		List<String> listeTrieeSymptome = new ArrayList<String>(); // on crée une liste vide
+		listeTrieeSymptome.addAll(symptomHashMap.keySet());  // on remplit la liste vide par toutes les clés de la map
+		Collections.sort(listeTrieeSymptome);  // on trie la liste des clés.
+		
+		
 		// next generate output
 		FileWriter writer = new FileWriter ("D:/result.out");
 		
-		for (Map.Entry<String, Integer> entry : symptomHashMap.entrySet()) { 
-			String key = entry.getKey();
-			int val = entry.getValue();
-			writer.write(key + ": " + val + "\n"); 
-			System.out.println(key + ": " + val); 
+		for (Iterator iterator = listeTrieeSymptome.iterator(); iterator.hasNext();) { //on boucle sur la liste triée de clés
+			String key = (String) iterator.next();
+			int val = symptomHashMap.get(key); // on récupère le compteur dans la map (la valeur de la clé)
+			writer.write(key + ": " + val + "\n"); // on écrit dans le fichier de résultat la ligne : Clé : compteur
+			System.out.println(key + ": " + val); // on écrit la même chose dans la sortie standard pour information
 		}
 
 		writer.close();
