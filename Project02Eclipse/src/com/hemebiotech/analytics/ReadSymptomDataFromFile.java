@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,25 +24,32 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	}
 	
 	@Override
-	public List<String> GetSymptoms() {
-		ArrayList<String> result = new ArrayList<String>();
+	public HashMap<String, Integer> GetSymptoms() {
+		HashMap<String, Integer> symptomHashMap = new HashMap<>();
 		
 		if (filepath != null) {
 			try {
 				BufferedReader reader = new BufferedReader (new FileReader(filepath));
 				String line = reader.readLine();
 				
+				
 				while (line != null) {
-					result.add(line);
-					line = reader.readLine();
+					if (symptomHashMap.get(line)!=null) {
+						int counter = symptomHashMap.get(line);
+						symptomHashMap.put(line,(counter +1));
+					} else  {
+						symptomHashMap.put(line,1);
+					} 
+					line = reader.readLine();	// get another symptom
 				}
 				reader.close();
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		
-		return result;
+		return symptomHashMap;
 	}
 
 }
